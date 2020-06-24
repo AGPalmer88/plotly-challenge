@@ -1,3 +1,3 @@
 # plotly-challenge
  
-ttps://agpalmer88.github.io/plotly-challenge/
+https://agpalmer88.github.io/plotly-challenge/
