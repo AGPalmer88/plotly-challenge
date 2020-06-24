@@ -1,10 +1,17 @@
+function buildCharts(sample) {
+d3.json("samples.json").then(function(data) {
+  console.log(data);
+
+
 // Call updatePlotly() when a change takes place to the DOM
 //d3.selectAll("#selDataset").on("change", updatePlotly);
 d3.select("#selDataset").on("change", updatePlotly);
+var data = [];
+var vardata = [];
 
 d3.json("samples.json").then((importedData) => {
   data = importedData
-  vardata = data.samples.filter(val => val.id =="940");
+  vardata = data.samples.filter(val => val.id == "940");
   console.log(vardata);
   init();
 
@@ -41,7 +48,7 @@ function buildCharts(sample) {
     }];
 
     var layout = {
-      title: "Top 10 OTUs Bar Chart"
+      title: "Top 10 OTUs Bar Chart",
       height: 400,
       width: 500
     };
@@ -57,7 +64,7 @@ function buildCharts(sample) {
 
     var trace1 = {
       x: data.otd_ids,
-      y: data.sample_values
+      y: data.sample_values,
       mode: 'markers',
       text: data.otu_labels,
       marker: {
@@ -75,38 +82,33 @@ function buildCharts(sample) {
 
 Plotly.newPlot('bubble', data, layout);
 
-/// CREATE METADATA SAMPLE FOR DEMOGRAPHIC TABLE 
+/////////////////////////////////////
+/// CREATE DEMOGRAPHIC TABLE ////////
+///////////////////////////////////////
 
-
-  // function init() {
-  //   // Grab a reference to the dropdown select element
-  //   var selector = d3.select("#selDataset");
-  
-  //   // Use the list of sample names to populate the select options
-  //   d3.json("/names").then((sampleNames) => {
-  //     // console.log(sampleNames);
-  //     sampleNames.forEach((sample) => {
-  //       selector
-  //         .append("option", sample)
-  //         .text(sample)
-  //         .property("value", sample);
-  //     });
-  
-  //     // Use the first sample from the list to build the initial plots
-  //     const firstSample = sampleNames[0];
-  //     buildCharts(firstSample);
-  //     buildMetadata(firstSample);
-  //   });
-  // }
-  
+var selection = d3.select("#sample-metadata").selectAll("div")
+.data(sampleMeta);
+// Populated the sample metadata information
+selection.enter()
+.append("div")
+.merge(selection)
+.html(function(d){
+  return `<p>ID: ${d.id}</p>
+        <p>Ethnicity: ${d.ethnicity}</p>
+        <p>Gender: ${d.gender}</p>
+        <p>Age: ${d.age}</p>
+        <p>Location: ${d.location}</p>
+        <p>bbtype: ${d.bbtype}</p>
+        <p>wfreq: ${d.wfreq}</p>`
+});
+// Removed old data //
+selection.exit().remove();
   
   function optionChanged(newSample) {
     // Fetch new data each time a new sample is selected
     buildCharts(newSample);
     buildMetadata(newSample);
   }
-
-
 
     // Initialize the dashboard
     init();
