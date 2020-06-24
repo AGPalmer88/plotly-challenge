@@ -26,7 +26,7 @@ d3.json("samples.json").then((importedData) => {
   });
 
 // Step1: Plotly 
-function buildCharts(sample) {
+function buildCharts(sample){
 /// BAR CHART 
   // Use the D3 library to load in samples.json.
   d3.json("samples.json").then(function(data) {
@@ -54,7 +54,8 @@ function buildCharts(sample) {
     };
 
     Plotly.newPlot('bar-plot', data, layout);
-
+  }
+  )}
     });
     
     /////////////////////////////
@@ -110,5 +111,5 @@ selection.exit().remove();
     buildMetadata(newSample);
   }
 
-    // Initialize the dashboard
-    init();
+    // Initialize the dashboard//
+    init()
